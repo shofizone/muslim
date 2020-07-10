@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: ListView(
         children: [
           Column(children: [
-            SelectLocation(),
+            SelectLocationWidget(),
             CurrentTime(),
             SizedBox(height: 40,),
             UpComingPrayer(),

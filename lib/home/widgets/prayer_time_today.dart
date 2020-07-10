@@ -87,49 +87,52 @@ class PrayerTimeToday extends StatelessWidget {
   }) {
 bool current = name == upComingPrayerName;
     var textStyle = TextStyle(fontSize: 20,color: current? AppColors.primaryColor: null);
-    return Material(
-      color: current?AppColors.primaryColor.withOpacity(0.1):Colors.transparent,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 3,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 9),
-                    child: Icon(
-                      iconData,
-                      size: 18,
-                      color: AppColors.primaryColor
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Material(
+        color: current?AppColors.primaryColor.withOpacity(0.1):Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 3,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 8,
                     ),
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Text(
-                    name,
-                    style: textStyle,
-                    textAlign: TextAlign.start,
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 9),
+                      child: Icon(
+                        iconData,
+                        size: 18,
+                        color: AppColors.primaryColor
+                      ),
+                    ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Text(
+                      name,
+                      style: textStyle,
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Text(
-                time,
-                style: textStyle,
+              Expanded(
+                flex: 2,
+                child: Text(
+                  time,
+                  style: textStyle,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:muslim/utils/geolocator_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsViewModel with ChangeNotifier {
   ThemeMode _appThemeMode = ThemeMode.light;
   var _themeModePrfKey = "appThemeMode";
+  var _geoLocatorHelper = GeoLocatorHelper();
+  Position _position;
+  String _locationString;
 
   SettingsViewModel() {
-    setUpTheme();
+    _setUpTheme();
   }
 
   ThemeMode get appThemeMode => _appThemeMode;
@@ -16,7 +21,7 @@ class SettingsViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  setUpTheme() async {
+  _setUpTheme() async {
     var prf = await SharedPreferences.getInstance();
     var res = prf.getString(_themeModePrfKey);
     debugPrint(res);
@@ -40,7 +45,6 @@ class SettingsViewModel with ChangeNotifier {
       }
       notifyListeners();
     }
-
   }
 
   toggleLightDark() {
@@ -67,4 +71,28 @@ class SettingsViewModel with ChangeNotifier {
         break;
     }
   }
+
+  pickLocationByGPS() async {
+    bool granted = await _geoLocatorHelper.getLocationPermission();
+    print(granted);
+    if (granted) {
+      var position =  _geoLocatorHelper.getCurrentLocation();
+      position.then((value){
+        print(value);
+        _position = value;
+        notifyListeners();
+        var address = _geoLocatorHelper.getAddressFromLatLng(value);
+        address.then((value) {
+          _locationString = value;
+          notifyListeners();
+        });
+      });
+    }else{
+      debugPrint("Permission is not granted");
+    }
+  }
+
+  String get locationString => _locationString;
+
+  Position get position => _position;
 }

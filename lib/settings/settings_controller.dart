@@ -1,25 +1,24 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:muslim/models/city.dart';
 import 'package:muslim/utils/geolocator_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingsViewModel with ChangeNotifier {
-  ThemeMode _appThemeMode = ThemeMode.light;
+class SettingsController extends GetxController {
+  var appThemeMode = ThemeMode.system.obs;
   var _themeModePrfKey = "appThemeMode";
   var _geoLocatorHelper = GeoLocatorHelper();
   Position _position;
   String _locationString;
 
-  SettingsViewModel() {
+
+  @override
+  void onInit() {
     _setUpTheme();
   }
 
-  ThemeMode get appThemeMode => _appThemeMode;
-
-  set appThemeMode(ThemeMode value) {
-    _appThemeMode = value;
-    notifyListeners();
-  }
 
   _setUpTheme() async {
     var prf = await SharedPreferences.getInstance();
@@ -29,37 +28,45 @@ class SettingsViewModel with ChangeNotifier {
       switch (res) {
         case "dark":
           {
-            appThemeMode = ThemeMode.dark;
+            appThemeMode.update((value) {
+              value = ThemeMode.dark;
+            });
             break;
           }
         case "light":
           {
-            appThemeMode = ThemeMode.light;
+            appThemeMode.update((value) {
+              value = ThemeMode.light;
+            });
             break;
           }
         default:
           {
-            appThemeMode = ThemeMode.system;
+            appThemeMode.update((value) {
+              value = ThemeMode.system;
+            });
             break;
           }
       }
-      notifyListeners();
     }
   }
 
   toggleLightDark() {
-    if (_appThemeMode == ThemeMode.dark) {
-      appThemeMode = ThemeMode.light;
-    } else {
-      appThemeMode = ThemeMode.dark;
-    }
+
+      if (appThemeMode.value == ThemeMode.dark) {
+        appThemeMode.value = ThemeMode.light;
+      } else {
+        appThemeMode.value = ThemeMode.dark;
+      }
+
+      print(appThemeMode.value);
+
     _saveToLocal();
-//    print(_appThemeMode);
   }
 
   _saveToLocal() async {
     var prf = await SharedPreferences.getInstance();
-    switch (_appThemeMode) {
+    switch (appThemeMode.value) {
       case ThemeMode.system:
         prf.setString(_themeModePrfKey, "system");
         break;
@@ -76,20 +83,26 @@ class SettingsViewModel with ChangeNotifier {
     bool granted = await _geoLocatorHelper.getLocationPermission();
     print(granted);
     if (granted) {
-      var position =  _geoLocatorHelper.getCurrentLocation();
-      position.then((value){
+      var position = _geoLocatorHelper.getCurrentLocation();
+      position.then((value) {
         print(value);
         _position = value;
-        notifyListeners();
+        update();
         var address = _geoLocatorHelper.getAddressFromLatLng(value);
         address.then((value) {
           _locationString = value;
-          notifyListeners();
+          update();
         });
       });
-    }else{
+    } else {
       debugPrint("Permission is not granted");
     }
+  }
+
+  Future<List<City>> pickLocationFormJson() async {
+    var cityList =
+        await _geoLocatorHelper.getLocationJson('assets/json/cities.json');
+    return cityList;
   }
 
   String get locationString => _locationString;

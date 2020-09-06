@@ -46,6 +46,7 @@ class PrayerTimeController extends GetxController {
       asr: PrayerModel(name: "Asr", time: pt.asr),
       maghrib: PrayerModel(name: "Maghrib", time: pt.maghrib),
       isha: PrayerModel(name: "Isha", time: pt.isha),
+      sunrise: PrayerModel(name: "Sunrise",time: pt.sunrise),
     );
   }
 
@@ -57,6 +58,7 @@ class PrayerTimeController extends GetxController {
       asr: PrayerModel(name: "Asr", time: pt.asr),
       maghrib: PrayerModel(name: "Maghrib", time: pt.maghrib),
       isha: PrayerModel(name: "Isha", time: pt.isha),
+      sunrise: PrayerModel(name: "Sunrise",time: pt.sunrise),
     );
   }
 

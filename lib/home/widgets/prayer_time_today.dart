@@ -37,12 +37,22 @@ class PrayerTimeToday extends StatelessWidget {
               var upComingPrayer = vm.upComingPrayer;
               return Column(
                 children: [
+
+                  // Text(todayPrayer.sunrise.name??""),
+                  // _tile(
+                  //     context: context,
+                  //     name: todayPrayer.fajr.name,
+                  //     time: todayPrayer.fajr.timeString,
+                  //     iconData: WeatherIcons.sunrise,
+                  //   upComingPrayerName: upComingPrayer.name
+                  //
+                  // ),
                   _tile(
                       context: context,
                       name: todayPrayer.fajr.name,
                       time: todayPrayer.fajr.timeString,
                       iconData: WeatherIcons.sunrise,
-                    upComingPrayerName: upComingPrayer.name
+                      upComingPrayerName: upComingPrayer.name
 
                   ),
                   _tile(

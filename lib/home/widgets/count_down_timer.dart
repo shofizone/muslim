@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:adhan/adhan.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:muslim/method_extensions.dart';
-import 'package:muslim/prayer_time/prayer_time_view_model.dart';
+import 'package:muslim/prayer_time/prayer_time_controller.dart';
+import 'package:muslim/settings/settings_controller.dart';
 import 'package:muslim/values/colors.dart';
-import 'package:provider/provider.dart';
 
 class CountDownTimer extends StatefulWidget {
   final DateTime time;
@@ -16,6 +18,7 @@ class CountDownTimer extends StatefulWidget {
 }
 
 class _CountDownTimerState extends State<CountDownTimer> {
+  PrayerTimeController controller = Get.find();
   Timer _timer;
   Duration _remaining = Duration.zero;
 
@@ -25,7 +28,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
       _remaining = widget.time.difference(DateTime.now());
       if (_remaining <= Duration.zero) {
         _timer.cancel();
-        Provider.of<PrayerTimeVIewModel>(context, listen: false).updateUI();
+        controller.updateUI();
       }
       if (this.mounted) {
         setState(() {});

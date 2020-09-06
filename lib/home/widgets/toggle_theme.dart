@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:muslim/settings/settings_controller.dart';
 import 'package:muslim/values/colors.dart';
-import 'package:provider/provider.dart';
+
 
 class ToggleThemeWidget extends StatelessWidget {
   final SettingsController _controller = Get.find();

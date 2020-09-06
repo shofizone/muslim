@@ -1,18 +1,21 @@
 import 'package:adhan/adhan.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:muslim/models/prayers_of_day.dart';
 import 'package:muslim/models/prayer.dart';
 import 'package:muslim/utils/geolocator_helper.dart';
 
-class PrayerTimeVIewModel with ChangeNotifier {
+class PrayerTimeController extends GetxController {
   Coordinates _coordinates;
   PrayerTimes prayerTimes;
   CalculationParameters params;
 
-  PrayerTimeVIewModel() {
+  @override
+  void onInit() {
     initData();
   }
+
 
   initData() async{
     params = CalculationMethod.karachi.getParameters();
@@ -27,7 +30,7 @@ class PrayerTimeVIewModel with ChangeNotifier {
       locator
           .getAddressFromLatLng(position);
       _coordinates = Coordinates(position.latitude, position.longitude);
-      notifyListeners();
+      update();
     }
 
 
@@ -76,7 +79,7 @@ class PrayerTimeVIewModel with ChangeNotifier {
   }
 
   void updateUI() {
-    notifyListeners();
+    update();
   }
 
   String getLocationInfo() {}

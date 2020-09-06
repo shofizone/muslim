@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:muslim/prayer_time/prayer_time_view_model.dart';
+import 'package:muslim/prayer_time/prayer_time_controller.dart';
 import 'package:muslim/values/colors.dart';
-import 'package:provider/provider.dart';
 import 'package:weather_icons/weather_icons.dart';
 
 class PrayerTimeToday extends StatelessWidget {
@@ -32,7 +32,7 @@ class PrayerTimeToday extends StatelessWidget {
                 ],
               ),
             ),
-            Consumer<PrayerTimeVIewModel>(builder: (context, vm, child) {
+            GetBuilder<PrayerTimeController>(builder: ( vm) {
               var todayPrayer = vm.getPrayerOfToday();
               var upComingPrayer = vm.upComingPrayer;
               return Column(
